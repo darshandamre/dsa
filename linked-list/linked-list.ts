@@ -40,7 +40,6 @@ export class LinkedList<T> {
     this.#head = newNode;
 
     if (!this.#tail) {
-      this.#tail;
       this.#tail = newNode;
     }
   }
@@ -62,6 +61,39 @@ export class LinkedList<T> {
     const newNode = new LinkedListNode(value);
     newNode.next = currNode.next;
     currNode.next = newNode;
+    if (!newNode.next) {
+      this.#tail = newNode;
+    }
+  }
+
+  // delete operations
+  deleteHead() {
+    if (!this.#head) {
+      return null;
+    }
+
+    const deletedHead = this.#head;
+    this.#head = this.#head.next;
+    if (!this.#head) {
+      this.#tail = null;
+    }
+    return deletedHead.value;
+  }
+
+  deleteTail() {
+    const deletedTail = this.#tail;
+    if (this.#head === this.#tail) {
+      return this.deleteHead();
+    }
+
+    let currNode = this.#head!;
+    while (currNode.next?.next) {
+      currNode = currNode.next;
+    }
+    this.#tail = currNode;
+    currNode.next = null;
+
+    return deletedTail!.value;
   }
 
   toArray() {
@@ -99,4 +131,6 @@ linkedList.prepend(30); // 30 => 2 => 4
 linkedList.insert(0, 1); // 30 => 0 => 2 => 4
 linkedList.insert(99, -3); // 99 => 30 => 0 => 2 => 4
 linkedList.insert(11, 100); // 99 => 30 => 0 => 2 => 4 => 11
+linkedList.deleteHead(); // 30 => 0 => 2 => 4 => 11
+linkedList.deleteTail(); // 30 => 0 => 2 => 4
 linkedList.display();
