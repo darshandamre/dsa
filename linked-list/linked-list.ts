@@ -6,52 +6,73 @@ class LinkedListNode<T> {
     this.value = value;
     this.next = next;
   }
+
+  toString(callbackFn?: (value: T) => string) {
+    return callbackFn ? callbackFn(this.value) : `${this.value}`;
+  }
 }
 
-class LinkedList<T> {
+export class LinkedList<T> {
   #head: LinkedListNode<T> | null;
-  // #tail: LinkedListNode<T> | null;
+  #tail: LinkedListNode<T> | null;
 
   constructor() {
     this.#head = null;
-    // this.#tail = null;
-  }
-
-  toString() {
-    let temp = this.#head;
-    let result = "HEAD";
-
-    while (temp !== null) {
-      result += ` => ${temp.value}`;
-      temp = temp.next;
-    }
-
-    return result + " => NULL";
+    this.#tail = null;
   }
 
   // insert operations
   add(value: T) {
-    if (this.#head === null) {
-      this.#head = new LinkedListNode(value);
+    const newNode = new LinkedListNode(value);
+
+    if (!this.#head) {
+      this.#head = newNode;
+      this.#tail = newNode;
     } else {
-      let temp = this.#head;
-
-      while (temp.next !== null) {
-        temp = temp.next;
-      }
-
-      temp.next = new LinkedListNode(value);
+      this.#tail!.next = newNode;
+      this.#tail = newNode;
     }
 
     return this;
   }
 
   prepend(value: T) {
-    let temp = new LinkedListNode(value);
-    temp.next = this.#head;
-    this.#head = temp;
+    let newNode = new LinkedListNode(value);
+    newNode.next = this.#head;
+    this.#head = newNode;
+
+    if (!this.#tail) {
+      this.#tail;
+      this.#tail = newNode;
+    }
 
     return this;
+  }
+
+  toArray() {
+    const nodes = [];
+    let currNode = this.#head;
+
+    while (currNode) {
+      nodes.push(currNode);
+      currNode = currNode.next;
+    }
+
+    return nodes;
+  }
+
+  toString(callbackFn?: (value: T) => string) {
+    return this.toArray()
+      .map(node => node.toString(callbackFn))
+      .toString();
+  }
+
+  display() {
+    console.log(
+      this.toArray()
+        .map(node => node.value)
+        .join(" => ")
+    );
   }
 }
 
@@ -64,4 +85,4 @@ linkedList.add(9);
 linkedList.add(7);
 linkedList.prepend(30);
 linkedList.prepend(3000);
-console.log(linkedList.toString());
+linkedList.display();
