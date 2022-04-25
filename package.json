@@ -1,7 +1,11 @@
 {
   "name": "dsa",
   "packageManager": "yarn@3.2.0",
+  "scripts": {
+    "dev": "nodemon"
+  },
   "devDependencies": {
+    "nodemon": "^2.0.15",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
   }
