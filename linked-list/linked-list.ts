@@ -22,7 +22,7 @@ export class LinkedList<T> {
   }
 
   // insert operations
-  add(value: T) {
+  append(value: T) {
     const newNode = new LinkedListNode(value);
 
     if (!this.#head) {
@@ -32,8 +32,6 @@ export class LinkedList<T> {
       this.#tail!.next = newNode;
       this.#tail = newNode;
     }
-
-    return this;
   }
 
   prepend(value: T) {
@@ -45,8 +43,25 @@ export class LinkedList<T> {
       this.#tail;
       this.#tail = newNode;
     }
+  }
 
-    return this;
+  insert(value: T, rawIndex: number) {
+    const index = rawIndex < 0 ? 0 : rawIndex;
+
+    if (index === 0 || !this.#head) {
+      this.prepend(value);
+      return;
+    }
+
+    let currNode = this.#head;
+
+    for (let i = 1; currNode.next && i < index; i++) {
+      currNode = currNode.next;
+    }
+
+    const newNode = new LinkedListNode(value);
+    newNode.next = currNode.next;
+    currNode.next = newNode;
   }
 
   toArray() {
@@ -78,11 +93,10 @@ export class LinkedList<T> {
 
 // testing
 const linkedList = new LinkedList<number>();
-linkedList.add(2);
-linkedList.add(4);
-linkedList.add(1);
-linkedList.add(9);
-linkedList.add(7);
-linkedList.prepend(30);
-linkedList.prepend(3000);
+linkedList.append(2); // 2
+linkedList.append(4); // 2 => 4
+linkedList.prepend(30); // 30 => 2 => 4
+linkedList.insert(0, 1); // 30 => 0 => 2 => 4
+linkedList.insert(99, -3); // 99 => 30 => 0 => 2 => 4
+linkedList.insert(11, 100); // 99 => 30 => 0 => 2 => 4 => 11
 linkedList.display();
