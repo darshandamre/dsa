@@ -147,6 +147,30 @@ export class LinkedList<T> {
     return null;
   }
 
+  // reverse operation
+  reverse() {
+    // nodes
+    let currNode = this.#head;
+    let prevNode = null;
+    let nextNode = null;
+
+    while (currNode) {
+      // store next node
+      nextNode = currNode.next;
+
+      // curr.next would point to the previous node
+      currNode.next = prevNode;
+
+      // move previous and current node one step forward
+      prevNode = currNode;
+      currNode = nextNode;
+    }
+
+    // reset head and tail
+    this.#tail = this.#head;
+    this.#head = prevNode;
+  }
+
   fromArray(values: T[]) {
     values.forEach(value => this.append(value));
     return this;
@@ -189,10 +213,8 @@ linkedList.insert(99, -3); // 99 => 30 => 0 => 2 => 4
 linkedList.insert(11, 100); // 99 => 30 => 0 => 2 => 4 => 11
 linkedList.deleteHead(); // 30 => 0 => 2 => 4 => 11
 linkedList.deleteTail(); // 30 => 0 => 2 => 4
-const deleted = linkedList.delete(v => v === 2);
-console.log(deleted);
-linkedList.display();
-const node = linkedList.find((_, i) => i == 1);
-console.log(node);
-linkedList.fromArray([2, 3, 4, 4]);
+const deleted = linkedList.delete(v => v === 2); // 30 => 0 => 4
+const node = linkedList.find((_, i) => i == 1); // LinkedListNode { value: 0, next: ... }
+linkedList.fromArray([2, 3, 4, 4]); // 30 => 0 => 4 => 2 => 3 => 4 => 4
+linkedList.reverse(); // 4 => 4 => 3 => 2 => 4 => 0 => 30
 linkedList.display();
