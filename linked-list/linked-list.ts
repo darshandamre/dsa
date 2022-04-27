@@ -129,6 +129,24 @@ export class LinkedList<T> {
     return deletedNode.value;
   }
 
+  // find operation
+  find(
+    predicate: (value: T, index: number, linkedList: LinkedList<T>) => boolean
+  ) {
+    let currNode = this.#head;
+    let index = 0;
+
+    while (currNode) {
+      if (predicate(currNode.value, index, this)) {
+        return currNode;
+      }
+      currNode = currNode.next;
+      index++;
+    }
+
+    return null;
+  }
+
   toArray() {
     const nodes = [];
     let currNode = this.#head;
@@ -166,8 +184,8 @@ linkedList.insert(99, -3); // 99 => 30 => 0 => 2 => 4
 linkedList.insert(11, 100); // 99 => 30 => 0 => 2 => 4 => 11
 linkedList.deleteHead(); // 30 => 0 => 2 => 4 => 11
 linkedList.deleteTail(); // 30 => 0 => 2 => 4
-linkedList.display();
 const deleted = linkedList.delete(v => v === 2);
 console.log(deleted);
-
 linkedList.display();
+const node = linkedList.find((_, i) => i == 1);
+console.log(node);
