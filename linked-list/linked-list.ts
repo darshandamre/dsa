@@ -147,6 +147,11 @@ export class LinkedList<T> {
     return null;
   }
 
+  fromArray(values: T[]) {
+    values.forEach(value => this.append(value));
+    return this;
+  }
+
   toArray() {
     const nodes = [];
     let currNode = this.#head;
@@ -189,3 +194,5 @@ console.log(deleted);
 linkedList.display();
 const node = linkedList.find((_, i) => i == 1);
 console.log(node);
+linkedList.fromArray([2, 3, 4, 4]);
+linkedList.display();
