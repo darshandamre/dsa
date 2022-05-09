@@ -77,7 +77,7 @@ export class LinkedList<T> {
     if (!this.#head) {
       this.#tail = null;
     }
-    return deletedHead.value;
+    return deletedHead;
   }
 
   deleteTail() {
@@ -93,7 +93,7 @@ export class LinkedList<T> {
     this.#tail = currNode;
     currNode.next = null;
 
-    return deletedTail!.value;
+    return deletedTail;
   }
 
   delete(
@@ -106,7 +106,7 @@ export class LinkedList<T> {
     if (predicate(this.#head.value, 0, this)) {
       let deletedNode = this.#head;
       this.#head = this.#head.next;
-      return deletedNode.value;
+      return deletedNode;
     }
 
     let index = 0;
@@ -126,7 +126,7 @@ export class LinkedList<T> {
     }
     currNode.next = deletedNode.next;
 
-    return deletedNode.value;
+    return deletedNode;
   }
 
   // find operation
